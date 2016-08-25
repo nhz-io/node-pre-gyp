@@ -24,6 +24,7 @@ function run(prog,command,args,app,opts,cb) {
     if (!opts.cwd) {
         final_cmd += ' -C ' + path.join(__dirname,app.name);
     }
+    //final_cmd += '  --cafile=package.json --strict-ssl=false';
     // clang=1 is harmless to add, but avoids breakage on `-fno-tree-sink`
     // flag that nodejs gyp scripts add and clang does not know about
     final_cmd += ' --clang=1';
@@ -32,10 +33,17 @@ function run(prog,command,args,app,opts,cb) {
     }
     final_cmd += ' ' + app.args;
     final_cmd += ' ' + args;
+    //console.log('final_cmd:', final_cmd);
+    //console.log('opts:', JSON.stringify(opts));
     cp.exec(final_cmd,opts,function(err,stdout,stderr) {
         if (err) {
             var error = new Error("Command failed '" + command + "'");
-            return cb(error,stdout,stderr);
+            console.log('err:', err);
+            console.log('error:', error);
+            console.log('stdout:', stdout);
+            console.log('stderr:', stderr);
+            //return cb(error,stdout,stderr);
+            process.exit(1);
         }
         return cb(err,stdout,stderr);
     });
