@@ -34,8 +34,9 @@ install:
   - IF /I "%PLATFORM%" == "x64" CALL "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
   - IF /I "%PLATFORM%" == "x86" CALL "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86
   - npm install
-  - npm test
-  - .\scripts\test.bat
+  - node bin\node-pre-gyp rebuild -C C:\projects\node-pre-gyp\test\app2 --clang=1 --msvs_version=2015  --custom_include_path=../include --toolset=cpp11 --loglevel=silly
+  #- npm test
+  #- .\scripts\test.bat
 
 build: off
 test: off
