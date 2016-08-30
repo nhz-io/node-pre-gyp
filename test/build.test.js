@@ -33,8 +33,8 @@ function run(prog,command,args,app,opts,cb) {
     }
     final_cmd += ' ' + app.args;
     final_cmd += ' ' + args;
-    //console.log('final_cmd:', final_cmd);
-    //console.log('opts:', JSON.stringify(opts));
+    console.log('final_cmd:', final_cmd);
+    console.log('opts:', JSON.stringify(opts));
     cp.exec(final_cmd,opts,function(err,stdout,stderr) {
         if (err) {
             var error = new Error("Command failed '" + command + "'");
@@ -42,8 +42,8 @@ function run(prog,command,args,app,opts,cb) {
             console.log('error:', error);
             console.log('stdout:', stdout);
             console.log('stderr:', stderr);
-            //return cb(error,stdout,stderr);
-            process.exit(1);
+            return cb(error,stdout,stderr);
+            //process.exit(1);
         }
         return cb(err,stdout,stderr);
     });
@@ -135,7 +135,7 @@ describe('simple build and test', function() {
     });
 
     it(app.name + ' rebuilds ' + app.args, function(done) {
-        run('node-pre-gyp', 'rebuild', '--loglevel=error', app, {}, function(err,stdout,stderr) {
+        run('node-pre-gyp', 'rebuild', '--loglevel=silly', app, {}, function(err,stdout,stderr) {
             if (err) return on_error(err,stdout,stderr);
             if (stderr.indexOf("child_process: customFds option is deprecated, use stdio instead") == -1) {
                 assert.equal(stderr,'');
